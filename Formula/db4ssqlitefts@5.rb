@@ -8,6 +8,7 @@ class Db4ssqliteftsAT5 < Formula
   bottle do
     root_url "https://nightlies.sqlitebrowser.org/homebrew_bottles"
     rebuild 1
+    sha256 cellar: :any, monterey: "2697f17e93d3968a9aed113e4c4f523103d2440c90c323f14e37262b8d254008"
     sha256 cellar: :any, arm64_ventura: "cba48615c6186d7c920e40278076204b37d02e2c4f2643b4a7bf39f696502150"
   end
   
