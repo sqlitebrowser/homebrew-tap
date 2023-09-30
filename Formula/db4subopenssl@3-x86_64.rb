@@ -7,7 +7,7 @@ class Db4subopensslAT3X8664 < Formula
   mirror "https://www.mirrorservice.org/sites/ftp.openssl.org/source/old/3.1/openssl-3.1.3.tar.gz"
   mirror "http://www.mirrorservice.org/sites/ftp.openssl.org/source/openssl-3.1.3.tar.gz"
   mirror "http://www.mirrorservice.org/sites/ftp.openssl.org/source/old/3.1/openssl-3.1.3.tar.gz"
-  version "3.1.2"
+  version "3.1.3"
   sha256 "f0316a2ebd89e7f2352976445458689f80302093788c466692fb2a188b2eacf6"
   license "Apache-2.0"
   env :std
