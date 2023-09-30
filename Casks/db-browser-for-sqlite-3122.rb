@@ -1,4 +1,4 @@
-cask "db-browser-for-sqlite" do
+cask "db-browser-for-sqlite-3122" do
     arch arm: "-arm64"
 
     version "3.12.2"
