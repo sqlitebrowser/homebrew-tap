@@ -14,8 +14,8 @@ class Db4subopensslAT3X8664 < Formula
 
   bottle do
     root_url "https://nightlies.sqlitebrowser.org/homebrew_bottles"
-    rebuild 1
-    sha256 arm64_ventura: "fea8002c9dc6d70934f8400559eef9e9d8fdaca14dbb894e8956534274146a4f"
+    rebuild 2
+    sha256 arm64_ventura: "0f6b7bd48c52260ec7145e9dfa58367668fb8e4b2694efd9585213c5f7fd05d6"
   end
   
   livecheck do
