@@ -3,11 +3,11 @@
 class Db4sqtAT5 < Formula
   desc "Cross-platform application and UI framework"
   homepage "https://www.qt.io/"
-  # NOTE: Use *.diff for GitLab/KDE patches to avoid their checksums changing.
-  url "https://download.qt.io/official_releases/qt/5.15/5.15.10/single/qt-everywhere-opensource-src-5.15.10.tar.xz"
-  mirror "https://mirrors.dotsrc.org/qtproject/archive/qt/5.15/5.15.10/single/qt-everywhere-opensource-src-5.15.10.tar.xz"
-  mirror "https://mirrors.ocf.berkeley.edu/qt/archive/qt/5.15/5.15.10/single/qt-everywhere-opensource-src-5.15.10.tar.xz"
   version "5.15.10"
+  # NOTE: Use *.diff for GitLab/KDE patches to avoid their checksums changing.
+  url "https://download.qt.io/official_releases/qt/5.15/#{version}/single/qt-everywhere-opensource-src-#{version}.tar.xz"
+  mirror "https://mirrors.dotsrc.org/qtproject/archive/qt/5.15/#{version}/single/qt-everywhere-opensource-src-#{version}.tar.xz"
+  mirror "https://mirrors.ocf.berkeley.edu/qt/archive/qt/5.15/#{version}/single/qt-everywhere-opensource-src-#{version}.tar.xz"
   sha256 "b545cb83c60934adc9a6bbd27e2af79e5013de77d46f5b9f5bb2a3c762bf55ca"
   license all_of: ["GFDL-1.3-only", "GPL-2.0-only", "GPL-3.0-only", "LGPL-2.1-only", "LGPL-3.0-only"]
 

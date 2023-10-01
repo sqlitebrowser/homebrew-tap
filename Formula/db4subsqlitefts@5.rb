@@ -1,8 +1,8 @@
 class Db4subsqliteftsAT5 < Formula
   desc "Command-line interface for SQLite"
   homepage "https://sqlite.org"
-  url "https://sqlite.org/2023/sqlite-autoconf-3430100.tar.gz"
   version "3.43.1"
+  url "https://sqlite.org/2023/sqlite-autoconf-3430100.tar.gz"
   sha256 "39116c94e76630f22d54cd82c3cea308565f1715f716d1b2527f1c9c969ba4d9"
   env :std
 
