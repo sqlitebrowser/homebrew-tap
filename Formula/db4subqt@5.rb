@@ -15,6 +15,7 @@ class Db4subqtAT5 < Formula
     root_url "https://nightlies.sqlitebrowser.org/homebrew_bottles"
     rebuild 1
     sha256 cellar: :any, arm64_ventura: "4e927908a720595c26811f39a84f27638b20cf1d3e33ca188eab96581ff52d83"
+    sha256 cellar: :any, arm64_sonoma: "6d058e4cf77e7857c71865c2d7512a23214f4ec504160c12f3915f687a0c551f"
   end
   
   depends_on arch: :arm64

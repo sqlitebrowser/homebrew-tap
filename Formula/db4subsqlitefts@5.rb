@@ -10,6 +10,7 @@ class Db4subsqliteftsAT5 < Formula
     root_url "https://nightlies.sqlitebrowser.org/homebrew_bottles"
     rebuild 1
     sha256 cellar: :any, arm64_ventura: "887be2b499b2b204302314ec4cfb8a2c64ad872fa6cd622224c5a764a0133694"
+    sha256 cellar: :any, arm64_sonoma: "2741a5ac6a1157a4757bac6a2c4928d071d165fa16a32f2a8e249f508bc71bab"
   end
   
   livecheck do

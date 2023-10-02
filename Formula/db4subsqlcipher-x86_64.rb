@@ -12,6 +12,7 @@ class Db4subsqlcipherX8664 < Formula
     root_url "https://nightlies.sqlitebrowser.org/homebrew_bottles"
     rebuild 1
     sha256 cellar: :any, arm64_ventura: "4041bf0c568dcc6c0bf895da78832a6d54d7d654211ee85931f9a57e82e1e665"
+    sha256 cellar: :any, arm64_sonoma: "b5e89f67522f7826f9b651e079ccd4abc3ab80beffbbc18d0bf26c04e45ebfd6"
   end
   
   depends_on arch: :arm64
