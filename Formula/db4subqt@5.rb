@@ -27,6 +27,12 @@ class Db4subqtAT5 < Formula
       sha256 "fad8777aa1bfdbb8e74a4b2c9a58c4ca330cad0a273b2dceae87f670332023b2"
       directory "qtbase/"
     end
+
+    # Patch for `unary_function` deprecation.
+    patch do
+      url "https://raw.githubusercontent.com/sqlitebrowser/homebrew-tap/main/Patch/QT-UNARY_FUNCTION/QT-UNARY_FUNCTION.diff"
+      sha256 "d830eb11783b0edcbd547f0bd665e3bce0b3ec067ba4f4e80f5160cfcfb8a77b"
+    end
   end
 
   # Fix build with Xcode 14.3.
