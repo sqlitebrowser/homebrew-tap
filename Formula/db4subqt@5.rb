@@ -19,6 +19,16 @@ class Db4subqtAT5 < Formula
   
   depends_on arch: :arm64
 
+  # Fix build with macOS Sonoma.
+  if MacOS.version == :sonoma
+    # Patch for QTBUG-117225
+    patch do
+      url "https://raw.githubusercontent.com/sqlitebrowser/homebrew-tap/main/Patch/QTBUG-117225/QTBUG-117225.diff"
+      sha256 "fad8777aa1bfdbb8e74a4b2c9a58c4ca330cad0a273b2dceae87f670332023b2"
+      directory "qtbase/"
+    end
+  end
+
   # Fix build with Xcode 14.3.
   patch do
     url "https://invent.kde.org/qt/qt/qtlocation-mapboxgl/-/commit/5a07e1967dcc925d9def47accadae991436b9686.diff"
