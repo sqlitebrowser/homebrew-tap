@@ -3,18 +3,18 @@
 class Db4subqtAT5 < Formula
   desc "Cross-platform application and UI framework"
   homepage "https://www.qt.io/"
-  version "5.15.11"
+  version "5.15.12"
   # NOTE: Use *.diff for GitLab/KDE patches to avoid their checksums changing.
   url "https://download.qt.io/official_releases/qt/5.15/#{version}/single/qt-everywhere-opensource-src-#{version}.tar.xz"
   mirror "https://mirrors.dotsrc.org/qtproject/archive/qt/5.15/#{version}/single/qt-everywhere-opensource-src-#{version}.tar.xz"
   mirror "https://mirrors.ocf.berkeley.edu/qt/archive/qt/5.15/#{version}/single/qt-everywhere-opensource-src-#{version}.tar.xz"
-  sha256 "7426b1eaab52ed169ce53804bdd05dfe364f761468f888a0f15a308dc1dc2951"
+  sha256 "93f2c0889ee2e9cdf30c170d353c3f829de5f29ba21c119167dee5995e48ccce"
   license all_of: ["GFDL-1.3-only", "GPL-2.0-only", "GPL-3.0-only", "LGPL-2.1-only", "LGPL-3.0-only"]
 
   bottle do
     root_url "https://nightlies.sqlitebrowser.org/homebrew_bottles"
     rebuild 1
-    sha256 cellar: :any, arm64_sonoma: "2162426f8c66f7e3aa4e4ea73c106c93d5d2b0014d45091c105645c067501461"
+    sha256 cellar: :any, arm64_sonoma: "dfad2369614c93d5d249d5a212c19cb1546363d1dda82823b8da4e032c094a11"
   end
   
   depends_on arch: :arm64
