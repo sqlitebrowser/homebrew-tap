@@ -1,22 +1,21 @@
 class Db4subopensslAT3 < Formula
   desc "Cryptography and SSL/TLS Toolkit"
   homepage "https://openssl.org/"
-  version "3.1.4"
+  version "3.2.1"
   url "https://www.openssl.org/source/openssl-#{version}.tar.gz"
   mirror "https://www.mirrorservice.org/sites/ftp.openssl.org/source/openssl-#{version}.tar.gz"
-  mirror "https://www.openssl.org/source/old/3.1/openssl-#{version}.tar.gz"
-  mirror "https://www.mirrorservice.org/sites/ftp.openssl.org/source/old/3.1/openssl-#{version}.tar.gz"
+  mirror "https://www.openssl.org/source/old/3.2/openssl-#{version}.tar.gz"
+  mirror "https://www.mirrorservice.org/sites/ftp.openssl.org/source/old/3.2/openssl-#{version}.tar.gz"
   mirror "http://www.mirrorservice.org/sites/ftp.openssl.org/source/openssl-#{version}.tar.gz"
-  mirror "http://www.mirrorservice.org/sites/ftp.openssl.org/source/old/3.1/openssl-#{version}.tar.gz"
-  sha256 "840af5366ab9b522bde525826be3ef0fb0af81c6a9ebd84caa600fea1731eee3"
+  mirror "http://www.mirrorservice.org/sites/ftp.openssl.org/source/old/3.2/openssl-#{version}.tar.gz"
+  sha256 "83c7329fe52c850677d75e5d0b0ca245309b97e8ecbcfdc1dfdc4ab9fac35b39"
   license "Apache-2.0"
   env :std
 
   bottle do
     root_url "https://nightlies.sqlitebrowser.org/homebrew_bottles"
     rebuild 1
-    sha256 arm64_ventura: "eba7892aa18727b80262cece908314b2ceb52a54a09818d6c3fa1bc9bfc3294e"
-    sha256 arm64_sonoma: "9d8e5c07f3feca2c924810b0f68c7645053d35867c0ef053cf06dd91e0ee678b"
+    sha256 arm64_sonoma: "d6d22ec74a8e2e303e982f744a752d765e5a79fafe57a389f3d46b415c5d3643"
   end
   
   livecheck do
