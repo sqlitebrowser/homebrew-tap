@@ -1,0 +1,29 @@
+name: Check for packages updates
+
+on:
+  schedule:
+    - cron: '0 0 * * 0' # Every Sunday at 00:00 UTC
+  workflow_dispatch:
+
+jobs:
+  check:
+    name: Check for packages updates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          cache: 'pip'
+          python-version: '3.11.5'
+
+      - name: Install dependencies
+        run: pip install -r ./.github/scripts/requirements.txt
+      
+      - name: Run the script
+        env:
+          ASSIGNEES: ${{ vars.ASSIGNEES }}
+          GITHUB_REPO: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 ./.github/scripts/check-update.py
