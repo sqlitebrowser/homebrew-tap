@@ -1,16 +1,16 @@
 class SqlbSqlcipher < Formula
   desc "SQLite extension providing 256-bit AES encryption"
   homepage "https://www.zetetic.net/sqlcipher/"
-  version "4.6.0"
+  version "4.6.1"
   url "https://github.com/sqlcipher/sqlcipher/archive/refs/tags/v#{version}.tar.gz"
-  sha256 "879fb030c36bc5138029af6aa3ae3f36c28c58e920af05ac7ca78a5915b2fa3c"
+  sha256 "d8f9afcbc2f4b55e316ca4ada4425daf3d0b4aab25f45e11a802ae422b9f53a3"
   license "BSD-3-Clause"
   head "https://github.com/sqlcipher/sqlcipher.git", branch: "master"
 
   bottle do
     root_url "https://nightlies.sqlitebrowser.org/homebrew_bottles"
     rebuild 1
-    sha256 arm64_sonoma: "e19e90b320f464e8639e5bd5f59ee21e5b32c47f844440e85d43f0a39a2b2069"
+    sha256 arm64_sonoma: "ff81df0c7205ada240dfa3ea9fc29e11882b11ed1625b00b4b6cf3853d555084"
   end
 
   depends_on arch: :arm64
