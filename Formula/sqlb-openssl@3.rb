@@ -1,5 +1,3 @@
-# FIXME: This formula conflicts with the Homebrew official 'openssl@3' formula. (https://github.com/sqlitebrowser/homebrew-tap/issues/1)
-# Until fixed, you can install this formula before running 'brew unlink openssl@3'
 class SqlbOpensslAT3 < Formula
   desc "Cryptography and SSL/TLS Toolkit"
   homepage "https://openssl.org/"
@@ -21,13 +19,10 @@ class SqlbOpensslAT3 < Formula
     regex(/href=.*?openssl[._-]v?(\d+(?:\.\d+)+)\.t/i)
   end
 
+  keg_only :shadowed_by_macos, "macOS provides LibreSSL"
+
   depends_on arch: :arm64
   depends_on "ca-certificates"
-
-  link_overwrite "bin/c_rehash", "bin/openssl", "include/openssl/*"
-  link_overwrite "lib/libcrypto*", "lib/libssl*"
-  link_overwrite "lib/pkgconfig/libcrypto.pc", "lib/pkgconfig/libssl.pc", "lib/pkgconfig/openssl.pc"
-  link_overwrite "share/doc/openssl/*", "share/man/man*/*ssl"
 
   # SSLv2 died with 1.1.0, so no-ssl2 no longer required.
   # SSLv3 & zlib are off by default with 1.1.0 but this may not
