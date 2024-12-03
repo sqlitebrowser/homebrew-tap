@@ -13,6 +13,11 @@ class SqlbSqlcipher < Formula
     sha256 arm64_sonoma: "ff81df0c7205ada240dfa3ea9fc29e11882b11ed1625b00b4b6cf3853d555084"
   end
 
+  livecheck do
+    url :stable
+    strategy :github_latest
+  end
+
   depends_on arch: :arm64
   depends_on "sqlb-openssl@3"
 
