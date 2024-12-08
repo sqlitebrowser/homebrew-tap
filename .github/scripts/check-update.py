@@ -1,15 +1,14 @@
 # FileName: check-update.py
-# SPDX-FileCopyrightText: (C) 2023 SeongTae Jeong <seongtaejg@gmail.com>
+# SPDX-FileCopyrightText: (C) 2024 SeongTae Jeong <seongtaejg@sqlitebrowser.org>
 # SPDX-License-Identifier: BSD-2-Clause
 
 """
 This script checks whether the package version of the formulae we're defining
-has been updated, and if so, notifies the maintainer by creating a Github Issue.
+has been updated, and if so, notifies the maintainer by creating a GitHub issue.
 """
 
+import json
 import os
-import re
-import requests
 import subprocess
 from enum import Enum
 
@@ -79,73 +78,31 @@ def generate_issue(package_name, current_version, latest_version):
     )
 
 
-def get_version_from_formula(formula_name):
-    filepath = os.path.join(os.getcwd(), "Formula", formula_name + ".rb")
-    with open(filepath, "r") as formula:
-        formula_content = formula.read()
-        version = re.search(r'version "(.*?)"', formula_content).group(1)
-
-    return version
-
-
-def check_sqlcipher_version():
-    current_version = get_version_from_formula("sqlb-sqlcipher")
-
-    release_list = subprocess.check_output(
-        "gh release list --repo sqlcipher/sqlcipher --limit 1", shell=True, text=True
-    )
-    latest_version = release_list.split()[0][1:]
-
-    if current_version != latest_version:
-        return (Package.SQLCIPHER, current_version, latest_version)
-
-
-def check_sqlite_version():
-    current_version = get_version_from_formula("sqlb-sqlite")
-
-    response = requests.get("https://sqlite.org/index.html")
-    latest_version = (
-        re.search(r"href=.*?releaselog/v?(\d+(?:[._]\d+)+)\.html", response.text)
-        .group(1)
-        .replace("_", ".")
-    )
-
-    if current_version != latest_version:
-        return (Package.SQLITE, current_version, latest_version)
-
-
-def check_openssl_version():
-    current_version = get_version_from_formula("sqlb-openssl@3")
-
-    response = requests.get("https://www.openssl.org/source/")
-    latest_version = re.findall(
-        r"href=.*?openssl[._-]v?(\d+(?:\.\d+)+)\.t", response.text
-    )[-1]
-
-    if current_version != latest_version:
-        return (Package.OPENSSL, current_version, latest_version)
-
-
-def check_qt_version():
-    current_version = get_version_from_formula("sqlb-qt@5")
-
-    response = requests.get(
-        "https://raw.githubusercontent.com/Homebrew/homebrew-core/master/Formula/q/qt%405.rb"
-    )
-    latest_version = re.search(r'url "(.*?)"', response.text).group(1).split("/")[-3]
-
-    if current_version != latest_version:
-        return (Package.QT, current_version, latest_version)
+def return_package_name_from_formula(formula):
+    if formula == "sqlb-openssl@3":
+        return Package.OPENSSL
+    elif formula == "sqlb-qt@5":
+        return Package.QT
+    elif formula == "sqlb-sqlcipher":
+        return Package.SQLCIPHER
+    elif formula == "sqlb-sqlite":
+        return Package.SQLITE
 
 
 if __name__ == "__main__":
-    functions = [
-        check_sqlite_version,
-        check_sqlcipher_version,
-        check_openssl_version,
-        check_qt_version,
-    ]
-    for function in functions:
-        response = function()
-        if response is not None:
-            generate_issue(response[0], response[1], response[2])
+    data = json.loads(
+        subprocess.run(
+            "brew livecheck sqlb-openssl sqlb-qt sqlb-sqlcipher sqlb-sqlite --json",
+            shell=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+    )
+    for formula in data:
+        if formula["version"]["current"] != formula["version"]["latest"]:
+            generate_issue(
+                return_package_name_from_formula(formula["formula"]),
+                formula["version"]["current"],
+                formula["version"]["latest"],
+            )
+

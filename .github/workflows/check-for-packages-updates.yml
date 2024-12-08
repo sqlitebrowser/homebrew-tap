@@ -8,22 +8,13 @@ on:
 jobs:
   check:
     name: Check for packages updates
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     steps:
-      - uses: actions/checkout@v4
+      - run: brew tap sqlitebrowser/tap
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          cache: 'pip'
-          python-version: '3.11.5'
-
-      - name: Install dependencies
-        run: pip install -r ./.github/scripts/requirements.txt
-      
       - name: Run the script
         env:
           ASSIGNEES: ${{ vars.ASSIGNEES }}
           GITHUB_REPO: ${{ github.repository }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python3 ./.github/scripts/check-update.py
+        run: curl https://raw.githubusercontent.com/sqlitebrowser/homebrew-tap/refs/heads/main/.github/scripts/check-update.py | python3
