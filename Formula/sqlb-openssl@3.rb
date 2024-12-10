@@ -1,17 +1,17 @@
 class SqlbOpensslAT3 < Formula
   desc "Cryptography and SSL/TLS Toolkit"
   homepage "https://openssl.org/"
-  version "3.3.2"
+  version "3.4.0"
   url "https://github.com/openssl/openssl/releases/download/openssl-#{version}/openssl-#{version}.tar.gz"
   mirror "https://www.openssl.org/source/openssl-#{version}.tar.gz"
   mirror "http://fresh-center.net/linux/misc/openssl-#{version}.tar.gz"
-  sha256 "2e8a40b01979afe8be0bbfb3de5dc1c6709fedb46d6c89c10da114ab5fc3d281"
+  sha256 "e15dda82fe2fe8139dc2ac21a36d4ca01d5313c75f99f46c4e8a27709b7294bf"
   license "Apache-2.0"
 
   bottle do
     root_url "https://nightlies.sqlitebrowser.org/homebrew_bottles"
     rebuild 1
-    sha256 arm64_sonoma: "778299534a1fd4630defdae93c17a2d6622dc3d2dc4463036630a9471044b441"
+    sha256 arm64_sonoma: "03c4e95023f21e2e98f9948eca0f9aa707d1a4d853855c65f7fd56e8ceec8f4e"
   end
 
   livecheck do
