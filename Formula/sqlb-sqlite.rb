@@ -1,16 +1,16 @@
 class SqlbSqlite < Formula
   desc "Command-line interface for SQLite"
   homepage "https://sqlite.org/index.html"
-  url "https://www.sqlite.org/2024/sqlite-autoconf-3460100.tar.gz"
-  version "3.46.1"
-  sha256 "67d3fe6d268e6eaddcae3727fce58fcc8e9c53869bdd07a0c61e38ddf2965071"
+  url "https://www.sqlite.org/2024/sqlite-autoconf-3470200.tar.gz"
+  version "3.47.2"
+  sha256 "f1b2ee412c28d7472bc95ba996368d6f0cdcf00362affdadb27ed286c179540b"
   license "blessing"
   env :std
 
   bottle do
     root_url "https://nightlies.sqlitebrowser.org/homebrew_bottles"
     rebuild 1
-    sha256 cellar: :any, arm64_sonoma: "875b64dc12419fce0e88e9157967302813d6e1569384716e954bdde426830b18"
+    sha256 cellar: :any, arm64_sonoma: "13dbe39bef2f56469bc64cbba8ca26ffbdcc9bf6334836e94b32af888f130972"
   end
 
   livecheck do
