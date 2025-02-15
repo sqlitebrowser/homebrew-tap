@@ -10,7 +10,7 @@ class SqlbSqlite < Formula
   bottle do
     root_url "https://nightlies.sqlitebrowser.org/homebrew_bottles"
     rebuild 1
-    sha256 cellar: :any, arm64_sonoma: "13dbe39bef2f56469bc64cbba8ca26ffbdcc9bf6334836e94b32af888f130972"
+    sha256 cellar: :any, arm64_sonoma: "e6b03a12f5d0392595b99b1564dbbc027f4517fcc578517be2b0641985f4a9e9"
   end
 
   livecheck do
