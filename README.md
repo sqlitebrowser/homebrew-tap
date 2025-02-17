@@ -6,10 +6,6 @@ Homebrew tap with the formulae needed to build our [project](https://github.com/
 brew tap sqlitebrowser/tap
 ```
 
-> [!NOTE]
-> Formulae for Intel-based macOS will be available soon.
-> Thank you for your patience.
-
 ## Formulae
 |   **Formula**  | **Description** |
 |:--------------:|:---------------:|
