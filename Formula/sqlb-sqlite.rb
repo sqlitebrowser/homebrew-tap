@@ -1,16 +1,16 @@
 class SqlbSqlite < Formula
   desc "Command-line interface for SQLite"
   homepage "https://sqlite.org/index.html"
-  url "https://www.sqlite.org/2025/sqlite-autoconf-3490000.tar.gz"
-  version "3.49.0"
-  sha256 "4d8bfa0b55e36951f6e5a9fb8c99f3b58990ab785c57b4f84f37d163a0672759"
+  url "https://www.sqlite.org/2025/sqlite-autoconf-3480000.tar.gz"
+  version "3.48.0"
+  sha256 "ac992f7fca3989de7ed1fe99c16363f848794c8c32a158dafd4eb927a2e02fd5"
   license "blessing"
   env :std
 
   bottle do
     root_url "https://nightlies.sqlitebrowser.org/homebrew_bottles"
     rebuild 1
-    sha256 cellar: :any, arm64_sonoma: "9436a0ca1e59bc451ae5dcb682947d1c009f8203443b99d5eb4882cf798ae4c2"
+    sha256 cellar: :any, arm64_sonoma: "e6b03a12f5d0392595b99b1564dbbc027f4517fcc578517be2b0641985f4a9e9"
   end
 
   livecheck do
@@ -24,13 +24,6 @@ class SqlbSqlite < Formula
   keg_only :provided_by_macos
 
   depends_on arch: :arm64
-
-  # Fix bugs occuring in SQLite version 3.9.0
-  # Upstream discussion: https://sqlite.org/forum/forumpost/a179331cbb
-  patch do
-    url "https://raw.githubusercontent.com/sqlitebrowser/homebrew-tap/refs/heads/main/Patches/sqlb-sqlite_3.9.0_autoconf-fix.patch"
-    sha256 "88186f292c2739ba1905d6493ec3ef0211f63760dcbade37a14d6112899ba9cf"
-  end
 
   def install
     # Determine the minimum macOS version.
@@ -64,15 +57,15 @@ class SqlbSqlite < Formula
       -DSQLITE_USE_URI=1
     ].join(" ")
 
-    args = [
-      "--disable-readline",
-      "--disable-editline",
-      "--enable-session",
-      "--with-readline-cflags=-I#{Formula["readline"].opt_include}",
-      "--with-readline-ldflags=-L#{Formula["readline"].opt_lib} -lreadline",
+    args = %W[
+      --prefix=#{prefix}
+      --disable-dependency-tracking
+      --enable-dynamic-extensions
+      --disable-readline
+      --disable-editline
     ]
 
-    system "./configure", *args, *std_configure_args
+    system "./configure", *args
     system "make", "install"
 
     # Avoid rebuilds of dependants that hardcode this path.
