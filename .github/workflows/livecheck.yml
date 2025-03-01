@@ -1,4 +1,4 @@
-name: Check for packages updates
+name: brew livecheck
 
 on:
   schedule:
@@ -7,14 +7,15 @@ on:
 
 jobs:
   check:
-    name: Check for packages updates
+    name: livecheck
     runs-on: macos-14
     steps:
-      - run: brew tap sqlitebrowser/tap
+      - run: brew tap $GITHUB_REPOSITORY
 
       - name: Run the script
         env:
           ASSIGNEES: ${{ vars.ASSIGNEES }}
           GITHUB_REPO: ${{ github.repository }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: curl https://raw.githubusercontent.com/sqlitebrowser/homebrew-tap/refs/heads/main/.github/scripts/check-update.py | python3
+          HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 "$(brew --prefix)/Library/Taps/${GITHUB_REPOSITORY}/.github/scripts/check-update.py"
