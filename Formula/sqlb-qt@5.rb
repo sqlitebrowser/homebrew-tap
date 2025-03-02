@@ -3,28 +3,26 @@
 class SqlbQtAT5 < Formula
   desc "Cross-platform application and UI framework"
   homepage "https://www.qt.io/"
-  version "5.15.16"
-  # NOTE: Use *.diff for GitLab/KDE patches to avoid their checksums changing.
   url "https://download.qt.io/official_releases/qt/5.15/5.15.16/single/qt-everywhere-opensource-src-5.15.16.tar.xz"
-  mirror "https://mirrors.dotsrc.org/qtproject/archive/qt/5.15/5.15.16/single/qt-everywhere-opensource-src-5.15.16.tar.xz"
-  mirror "https://mirrors.ocf.berkeley.edu/qt/archive/qt/5.15/5.15.16/single/qt-everywhere-opensource-src-5.15.16.tar.xz"
+  # version "5.15.16"
+  # NOTE: Use *.diff for GitLab/KDE patches to avoid their checksums changing.
   sha256 "efa99827027782974356aceff8a52bd3d2a8a93a54dd0db4cca41b5e35f1041c"
   license all_of: ["GFDL-1.3-only", "GPL-2.0-only", "GPL-3.0-only", "LGPL-2.1-only", "LGPL-3.0-only"]
   revision 1
-
-  bottle do
-    root_url "https://nightlies.sqlitebrowser.org/homebrew_bottles"
-    rebuild 1
-    sha256 cellar: :any, arm64_sonoma: "3c66b0d432cc737db11850de9b6ce7c84f20a0dedf54e950d10246cd4808ccdf"
-  end
 
   livecheck do
     url "https://download.qt.io/official_releases/qt/5.15/"
     regex(%r{href=["']?v?(\d+(?:\.\d+)+)/?["' >]}i)
   end
 
-  depends_on arch: :arm64
+  bottle do
+    root_url "https://github.com/lucydodo/homebrew-tap/releases/download/sqlb-qt@5-5.15.16_1"
+    sha256 cellar: :any, arm64_sonoma: "be4927a0d13ae0decd8b1ad449adf3d0290e57b14505d0fcc3e7d4f2895ea2fc"
+  end
+
   keg_only :versioned_formula
+
+  depends_on arch: :arm64
 
   # Fix build with Xcode 14.3.
   # https://bugreports.qt.io/browse/QTBUG-112906
@@ -47,7 +45,7 @@ class SqlbQtAT5 < Formula
     directory "qtbase"
   end
 
-    # CVE-2024-25580
+  # CVE-2024-25580
   # Remove with Qt 5.15.17
   patch do
     url "https://download.qt.io/official_releases/qt/5.15/CVE-2024-25580-qtbase-5.15.diff"
@@ -190,8 +188,8 @@ class SqlbQtAT5 < Formula
 
     system bin/"qmake", testpath/"hello.pro"
     system "make"
-    assert_predicate testpath/"hello", :exist?
-    assert_predicate testpath/"main.o", :exist?
+    assert_path_exists testpath/"hello"
+    assert_path_exists testpath/"main.o"
     system "./hello"
   end
 end

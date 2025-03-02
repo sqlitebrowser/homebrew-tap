@@ -5,13 +5,12 @@ class SqlbSqlite < Formula
   version "3.48.0"
   sha256 "ac992f7fca3989de7ed1fe99c16363f848794c8c32a158dafd4eb927a2e02fd5"
   license "blessing"
-  env :std
 
   bottle do
-    root_url "https://nightlies.sqlitebrowser.org/homebrew_bottles"
-    rebuild 1
-    sha256 cellar: :any, arm64_sonoma: "e6b03a12f5d0392595b99b1564dbbc027f4517fcc578517be2b0641985f4a9e9"
+    root_url "https://github.com/lucydodo/homebrew-tap/releases/download/sqlb-sqlite-3.48.0"
+    sha256 cellar: :any, arm64_sonoma: "90e6a864154e6089ff1cfaacc5e589efae5cc844b47369174a8ebb04039f843b"
   end
+  env :std
 
   livecheck do
     url :homepage
@@ -21,7 +20,7 @@ class SqlbSqlite < Formula
     end
   end
 
-  keg_only :provided_by_macos
+  keg_only :shadowed_by_macos
 
   depends_on arch: :arm64
 

@@ -1,21 +1,20 @@
 class SqlbSqlcipher < Formula
   desc "SQLite extension providing 256-bit AES encryption"
   homepage "https://www.zetetic.net/sqlcipher/"
-  version "4.6.1"
-  url "https://github.com/sqlcipher/sqlcipher/archive/refs/tags/v#{version}.tar.gz"
+  url "https://github.com/sqlcipher/sqlcipher/archive/refs/tags/v4.6.1.tar.gz"
+  # version "4.6.1"
   sha256 "d8f9afcbc2f4b55e316ca4ada4425daf3d0b4aab25f45e11a802ae422b9f53a3"
   license "BSD-3-Clause"
   head "https://github.com/sqlcipher/sqlcipher.git", branch: "master"
 
-  bottle do
-    root_url "https://nightlies.sqlitebrowser.org/homebrew_bottles"
-    rebuild 1
-    sha256 arm64_sonoma: "ff81df0c7205ada240dfa3ea9fc29e11882b11ed1625b00b4b6cf3853d555084"
-  end
-
   livecheck do
     url :stable
     strategy :github_latest
+  end
+
+  bottle do
+    root_url "https://github.com/lucydodo/homebrew-tap/releases/download/sqlb-sqlcipher-4.6.1"
+    sha256 cellar: :any, arm64_sonoma: "1c3b07faf269425e957a21ce0835e00339a4442d9533e89f7e0781e449804da8"
   end
 
   depends_on arch: :arm64
@@ -62,7 +61,7 @@ class SqlbSqlcipher < Formula
     args << "CFLAGS=#{cflags}"
 
     system "./configure", *args
-    system "arch -x86_64 make"
+    system "arch", "-x86_64", "make"
     system "make", "install"
 
     ENV.delete("CFLAGS")
@@ -93,14 +92,19 @@ class SqlbSqlcipher < Formula
     ].join(" ")
     args << "CFLAGS=#{cflags}"
 
-    system "make clean"
+    system "make", "clean"
     system "./configure", *args
     system "make"
     system "make", "install"
 
-    system "lipo", "-create", "-output", "#{lib}/libsqlcipher.0.dylib", "#{lib}/libsqlcipher.0.dylib", "#{prefix}/darwin64-x86_64-cc/lib/libsqlcipher.0.dylib"
-    system "lipo", "-create", "-output", "#{lib}/libsqlcipher.a", "#{lib}/libsqlcipher.a", "#{prefix}/darwin64-x86_64-cc/lib/libsqlcipher.a"
+    mv "#{lib}/libsqlcipher.0.dylib", "#{lib}/libsqlcipher.0-arm64.dylib"
+    dylib_arm64 = MachO::MachOFile.new("#{lib}/libsqlcipher.0-arm64.dylib")
+    dylib_x86_64 = MachO::MachOFile.new("#{prefix}/darwin64-x86_64-cc/lib/libsqlcipher.0.dylib")
+    fat = MachO::FatFile.new_from_machos(dylib_arm64, dylib_x86_64)
+    fat.write("#{lib}/libsqlcipher.0.dylib")
+
     rm "#{lib}/libsqlcipher.dylib"
+    rm_r "#{prefix}/darwin64-x86_64-cc"
     ln_s "#{lib}/libsqlcipher.0.dylib", "#{lib}/libsqlcipher.dylib"
   end
 

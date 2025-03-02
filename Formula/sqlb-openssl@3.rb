@@ -1,22 +1,19 @@
 class SqlbOpensslAT3 < Formula
   desc "Cryptography and SSL/TLS Toolkit"
   homepage "https://openssl.org/"
-  version "3.4.1"
-  url "https://github.com/openssl/openssl/releases/download/openssl-#{version}/openssl-#{version}.tar.gz"
-  mirror "https://www.openssl.org/source/openssl-#{version}.tar.gz"
-  mirror "http://fresh-center.net/linux/misc/openssl-#{version}.tar.gz"
+  url "https://github.com/openssl/openssl/releases/download/openssl-3.4.1/openssl-3.4.1.tar.gz"
+  # version "3.4.1"
   sha256 "002a2d6b30b58bf4bea46c43bdd96365aaf8daa6c428782aa4feee06da197df3"
   license "Apache-2.0"
-
-  bottle do
-    root_url "https://nightlies.sqlitebrowser.org/homebrew_bottles"
-    rebuild 1
-    sha256 arm64_sonoma: "e20ffdf75d17960f7cdc715481419e15314136215e800c37a2a572925d2d44fb"
-  end
 
   livecheck do
     url "https://www.openssl.org/source/"
     regex(/href=.*?openssl[._-]v?(\d+(?:\.\d+)+)\.t/i)
+  end
+
+  bottle do
+    root_url "https://github.com/lucydodo/homebrew-tap/releases/download/sqlb-openssl@3-3.4.1"
+    sha256 arm64_sonoma: "6da840dda45af0f56f1f2de196ac34617cb16df15b1db2dedaf8661efac52820"
   end
 
   keg_only :shadowed_by_macos, "macOS provides LibreSSL"
@@ -29,7 +26,7 @@ class SqlbOpensslAT3 < Formula
   # be obvious to everyone, so explicitly state it for now to
   # help debug inevitable breakage.
   def configure_args
-    args = %W[
+    %w[
       enable-ec_nistp_64_gcc_128
       no-asm
       no-ssl3
@@ -61,7 +58,7 @@ class SqlbOpensslAT3 < Formula
     ENV.append "CFLAGS", "-arch x86_64"
 
     system "perl", "./Configure", *(configure_args + arch_args)
-    system "arch -x86_64 make"
+    system "arch", "-x86_64", "make"
     system "make", "install", "MANDIR=#{prefix}/darwin64-x86_64-cc/share/man", "MANSUFFIX=ssl"
     # AF_ALG support isn't always enabled (e.g. some containers), which breaks the tests.
     # AF_ALG is a kernel feature and failures are unlikely to be issues with the formula.
@@ -72,7 +69,7 @@ class SqlbOpensslAT3 < Formula
     arch_args += %W[--prefix=#{prefix} --openssldir=#{openssldir} --libdir=lib]
 
     openssldir.mkpath
-    system "make clean"
+    system "make", "clean"
     system "perl", "./Configure", *(configure_args + arch_args)
     system "make"
     system "make", "install", "MANDIR=#{man}", "MANSUFFIX=ssl"
@@ -80,19 +77,20 @@ class SqlbOpensslAT3 < Formula
     # # AF_ALG is a kernel feature and failures are unlikely to be issues with the formula.
     # system "make", "test", "TESTS=-test_afalg"
 
-    system "lipo", "-create", "-output", "#{lib}/libcrypto.3.dylib", "#{lib}/libcrypto.3.dylib", "#{prefix}/darwin64-x86_64-cc/lib/libcrypto.3.dylib"
-    system "lipo", "-create", "-output", "#{lib}/libcrypto.a", "#{lib}/libcrypto.a", "#{prefix}/darwin64-x86_64-cc/lib/libcrypto.a"
+    mv "#{lib}/libcrypto.3.dylib", "#{lib}/libcrypto.3-arm64.dylib"
+    dylib_arm64 = MachO::MachOFile.new("#{lib}/libcrypto.3-arm64.dylib")
+    dylib_x86_64 = MachO::MachOFile.new("#{prefix}/darwin64-x86_64-cc/lib/libcrypto.3.dylib")
+    fat = MachO::FatFile.new_from_machos(dylib_arm64, dylib_x86_64)
+    fat.write("#{lib}/libcrypto.3.dylib")
+
     rm "#{lib}/libcrypto.dylib"
+    rm_r "#{prefix}/darwin64-x86_64-cc/bin"
+    rm_r "#{prefix}/darwin64-x86_64-cc/lib"
     ln_s "#{lib}/libcrypto.3.dylib", "#{lib}/libcrypto.dylib"
   end
 
   def openssldir
     etc/"sqlb-openssl@3"
-  end
-
-  def post_install
-    rm_f openssldir/"cert.pem"
-    openssldir.install_symlink Formula["ca-certificates"].pkgetc/"cert.pem"
   end
 
   def caveats
@@ -108,8 +106,7 @@ class SqlbOpensslAT3 < Formula
 
   test do
     # Make sure the necessary .cnf file exists, otherwise OpenSSL gets moody.
-    assert_predicate pkgetc/"openssl.cnf", :exist?,
-            "OpenSSL requires the .cnf file for some functionality"
+    assert_path_exists pkgetc/"openssl.cnf", "OpenSSL requires the .cnf file for some functionality"
 
     # Check OpenSSL itself functions as expected.
     (testpath/"testfile.txt").write("This is a test file")
