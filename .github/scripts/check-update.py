@@ -9,6 +9,7 @@ has been updated, and if so, notifies the maintainer by creating a GitHub issue.
 
 import json
 import os
+import re
 import subprocess
 from enum import Enum
 
@@ -89,7 +90,31 @@ def return_package_name_from_formula(formula):
         return Package.SQLITE
 
 
+# When defining a Homebrew formula, if the version value is included in the URL,
+# the command 'brew audit --strict [formula]' fails. Therefore, the version metadata
+# is commented out in the formula and is only temporarily uncommented during livecheck.
+def uncomment_version_in_formulae():
+    formulae = ["sqlb-openssl@3", "sqlb-qt@5", "sqlb-sqlcipher"]
+    formulae_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "..", "Formula")
+
+    for formula in formulae:
+        try:
+            formula_path = os.path.join(formulae_path, formula + ".rb")
+            with open(formula_path, "r", encoding="utf-8") as f:
+                lines = f.readlines()
+
+            uncommented_lines = [re.sub(r'^\s+# (version\s*.*)', r'  \1', line) for line in lines]
+
+            with open(formula_path, "w", encoding="utf-8") as f:
+                f.writelines(uncommented_lines)
+        except FileNotFoundError:
+            print(f"File {formula} not found")
+        except Exception as e:
+            print(f"Error while uncommenting version in {formula}: {e}")
+
+
 if __name__ == "__main__":
+    uncomment_version_in_formulae()
     data = json.loads(
         subprocess.run(
             "brew livecheck sqlb-openssl sqlb-qt sqlb-sqlcipher sqlb-sqlite --json",
