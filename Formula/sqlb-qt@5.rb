@@ -16,8 +16,8 @@ class SqlbQtAT5 < Formula
   end
 
   bottle do
-    root_url "https://github.com/lucydodo/homebrew-tap/releases/download/sqlb-qt@5-5.15.16_1"
-    sha256 cellar: :any, arm64_sonoma: "be4927a0d13ae0decd8b1ad449adf3d0290e57b14505d0fcc3e7d4f2895ea2fc"
+    root_url "https://github.com/sqlitebrowser/homebrew-tap/releases/download/sqlb-qt@5-5.15.16_1"
+    sha256 cellar: :any, arm64_sonoma: "3795b58979b95cf4d3152f9935990abf09b18afd8e8618503bef9fe9bdb5fc7c"
   end
 
   keg_only :versioned_formula
