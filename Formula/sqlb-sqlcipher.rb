@@ -13,8 +13,8 @@ class SqlbSqlcipher < Formula
   end
 
   bottle do
-    root_url "https://github.com/lucydodo/homebrew-tap/releases/download/sqlb-sqlcipher-4.6.1"
-    sha256 cellar: :any, arm64_sonoma: "1c3b07faf269425e957a21ce0835e00339a4442d9533e89f7e0781e449804da8"
+    root_url "https://github.com/sqlitebrowser/homebrew-tap/releases/download/sqlb-sqlcipher-4.6.1"
+    sha256 cellar: :any, arm64_sonoma: "0f918b4a91bf719ad5b8b205900ca845a21e0b730a01f38b3d2f15a63a15dfdc"
   end
 
   depends_on arch: :arm64
