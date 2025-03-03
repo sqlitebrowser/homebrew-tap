@@ -18,7 +18,7 @@ class SqlbSqlcipher < Formula
   end
 
   depends_on arch: :arm64
-  depends_on "sqlb-openssl@3"
+  depends_on "sqlitebrowser/tap/sqlb-openssl@3"
 
   # Build scripts require tclsh. `--disable-tcl` only skips building extension
   uses_from_macos "tcl-tk" => :build
