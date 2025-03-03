@@ -12,8 +12,8 @@ class SqlbOpensslAT3 < Formula
   end
 
   bottle do
-    root_url "https://github.com/lucydodo/homebrew-tap/releases/download/sqlb-openssl@3-3.4.1"
-    sha256 arm64_sonoma: "6da840dda45af0f56f1f2de196ac34617cb16df15b1db2dedaf8661efac52820"
+    root_url "https://github.com/sqlitebrowser/homebrew-tap/releases/download/sqlb-openssl@3-3.4.1"
+    sha256 arm64_sonoma: "0ed4713c5f198968bb47af6daf3a4da66c672f834988c594139b748fb1abea4f"
   end
 
   keg_only :shadowed_by_macos, "macOS provides LibreSSL"
