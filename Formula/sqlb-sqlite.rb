@@ -6,11 +6,6 @@ class SqlbSqlite < Formula
   sha256 "ac992f7fca3989de7ed1fe99c16363f848794c8c32a158dafd4eb927a2e02fd5"
   license "blessing"
 
-  bottle do
-    root_url "https://github.com/sqlitebrowser/homebrew-tap/releases/download/sqlb-sqlite-3.48.0"
-    sha256 cellar: :any, arm64_sonoma: "d831dc34302fe7e7dddc12eab7182a16211344a73f59fd84e58e4d53caf55dcc"
-  end
-
   env :std
 
   livecheck do
@@ -19,6 +14,11 @@ class SqlbSqlite < Formula
     strategy :page_match do |page, regex|
       page.scan(regex).map { |match| match&.first&.tr("_", ".") }
     end
+  end
+
+  bottle do
+    root_url "https://github.com/sqlitebrowser/homebrew-tap/releases/download/sqlb-sqlite-3.48.0"
+    sha256 cellar: :any, arm64_sonoma: "d831dc34302fe7e7dddc12eab7182a16211344a73f59fd84e58e4d53caf55dcc"
   end
 
   keg_only :shadowed_by_macos
