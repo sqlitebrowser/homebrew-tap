@@ -8,7 +8,7 @@ on:
 jobs:
   check:
     name: livecheck
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - run: brew tap $GITHUB_REPOSITORY
 
