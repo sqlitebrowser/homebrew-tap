@@ -11,6 +11,9 @@ on:
 jobs:
   create-comment:
     runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - if: github.event_name == 'pull_request'
         name: Create a comment
