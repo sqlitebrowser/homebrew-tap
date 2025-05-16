@@ -9,11 +9,8 @@ on:
       - 'Formula/**'
 
 jobs:
-  test-bot:
-    strategy:
-      matrix:
-        os: [macos-14]
-    runs-on: ${{ matrix.os }}
+  create-comment:
+    runs-on: ubuntu-22.04
     steps:
       - if: github.event_name == 'pull_request'
         name: Create a comment
@@ -26,6 +23,12 @@ jobs:
             > For Maintainers: When approving a PR, do not merge it directly. Instead add the `pr-pull` label.
             > This will trigger the `brew pr-pull` workflow, which will automatically add the bottle and merge the PR.
 
+  test-bot:
+    strategy:
+      matrix:
+        os: [macos-14, macos-15]
+    runs-on: ${{ matrix.os }}
+    steps:
       - name: Set up Homebrew
         id: set-up-homebrew
         uses: Homebrew/actions/setup-homebrew@master
