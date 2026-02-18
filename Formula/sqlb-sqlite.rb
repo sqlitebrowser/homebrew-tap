@@ -1,9 +1,9 @@
 class SqlbSqlite < Formula
   desc "Command-line interface for SQLite"
   homepage "https://sqlite.org/index.html"
-  url "https://www.sqlite.org/2025/sqlite-autoconf-3480000.tar.gz"
-  version "3.48.0"
-  sha256 "ac992f7fca3989de7ed1fe99c16363f848794c8c32a158dafd4eb927a2e02fd5"
+  url "https://sqlite.org/2026/sqlite-autoconf-3510200.tar.gz"
+  version "3.51.2"
+  sha256 "fbd89f866b1403bb66a143065440089dd76100f2238314d92274a082d4f2b7bb"
   license "blessing"
 
   env :std
@@ -30,7 +30,7 @@ class SqlbSqlite < Formula
     # Match the required version of the DB Browser for SQLite app.
     ENV["MACOSX_DEPLOYMENT_TARGET"] = "10.13"
     ENV.append "CPPFLAGS", "-mmacosx-version-min=10.13"
-    ENV.append "LDFLAGS", "-mmacosx-version-min=10.13"
+    ENV.append "LDFLAGS", "-mmacosx-version-min=10.13 -arch x86_64 -arch arm64"
 
     ENV.append "CFLAGS", "-arch x86_64 -arch arm64"
 
@@ -60,7 +60,6 @@ class SqlbSqlite < Formula
     args = %W[
       --prefix=#{prefix}
       --disable-dependency-tracking
-      --enable-dynamic-extensions
       --disable-readline
       --disable-editline
     ]
