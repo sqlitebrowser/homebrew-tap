@@ -1,9 +1,9 @@
 class SqlbSqlcipher < Formula
   desc "SQLite extension providing 256-bit AES encryption"
   homepage "https://www.zetetic.net/sqlcipher/"
-  url "https://github.com/sqlcipher/sqlcipher/archive/refs/tags/v4.6.1.tar.gz"
-  # version "4.6.1"
-  sha256 "d8f9afcbc2f4b55e316ca4ada4425daf3d0b4aab25f45e11a802ae422b9f53a3"
+  url "https://github.com/sqlcipher/sqlcipher/archive/refs/tags/v4.13.0.tar.gz"
+  # version "4.13.0"
+  sha256 "7ca5c11f70e460d6537844185621d5b3d683a001e6bad223d15bdf8eff322efa"
   license "BSD-3-Clause"
   head "https://github.com/sqlcipher/sqlcipher.git", branch: "master"
 
@@ -36,15 +36,16 @@ class SqlbSqlcipher < Formula
 
     args = %W[
       --prefix=#{prefix}/darwin64-x86_64-cc
-      --enable-tempstore=yes
-      --with-crypto-lib=#{Formula["sqlb-openssl@3"].opt_prefix}
-      --enable-load-extension
       --disable-tcl
+      --dll-basename=libsqlcipher
+      --enable-load-extension
+      --includedir=#{include}/sqlcipher
+      --with-tempstore=yes
+      LDFLAGS=-lcrypto
     ]
 
     # Build with full-text search enabled
     cflags = %w[
-      -DSQLCIPHER_CRYPTO_OPENSSL
       -DSQLITE_ENABLE_COLUMN_METADATA
       -DSQLITE_ENABLE_FTS3
       -DSQLITE_ENABLE_FTS3_PARENTHESIS
@@ -57,6 +58,8 @@ class SqlbSqlcipher < Formula
       -DSQLITE_ENABLE_STAT4
       -DSQLITE_HAS_CODEC
       -DSQLITE_SOUNDEX
+      -DSQLITE_EXTRA_INIT=sqlcipher_extra_init
+      -DSQLITE_EXTRA_SHUTDOWN=sqlcipher_extra_shutdown
     ].join(" ")
     args << "CFLAGS=#{cflags}"
 
@@ -68,15 +71,16 @@ class SqlbSqlcipher < Formula
 
     args = %W[
       --prefix=#{prefix}
-      --enable-tempstore=yes
-      --with-crypto-lib=#{Formula["sqlb-openssl@3"].opt_prefix}
-      --enable-load-extension
       --disable-tcl
+      --dll-basename=libsqlcipher
+      --enable-load-extension
+      --includedir=#{include}/sqlcipher
+      --with-tempstore=yes
+      LDFLAGS=-lcrypto
     ]
 
     # Build with full-text search enabled
     cflags = %w[
-      -DSQLCIPHER_CRYPTO_OPENSSL
       -DSQLITE_ENABLE_COLUMN_METADATA
       -DSQLITE_ENABLE_FTS3
       -DSQLITE_ENABLE_FTS3_PARENTHESIS
@@ -89,6 +93,8 @@ class SqlbSqlcipher < Formula
       -DSQLITE_ENABLE_STAT4
       -DSQLITE_HAS_CODEC
       -DSQLITE_SOUNDEX
+      -DSQLITE_EXTRA_INIT=sqlcipher_extra_init
+      -DSQLITE_EXTRA_SHUTDOWN=sqlcipher_extra_shutdown
     ].join(" ")
     args << "CFLAGS=#{cflags}"
 
@@ -97,11 +103,34 @@ class SqlbSqlcipher < Formula
     system "make"
     system "make", "install"
 
-    mv "#{lib}/libsqlcipher.0.dylib", "#{lib}/libsqlcipher.0-arm64.dylib"
-    dylib_arm64 = MachO::MachOFile.new("#{lib}/libsqlcipher.0-arm64.dylib")
-    dylib_x86_64 = MachO::MachOFile.new("#{prefix}/darwin64-x86_64-cc/lib/libsqlcipher.0.dylib")
+    mv "#{lib}/libsqlite3.0.dylib", "#{lib}/libsqlite3.0-arm64.dylib"
+    dylib_arm64 = MachO::MachOFile.new("#{lib}/libsqlite3.0-arm64.dylib")
+    dylib_x86_64 = MachO::MachOFile.new("#{prefix}/darwin64-x86_64-cc/lib/libsqlite3.0.dylib")
     fat = MachO::FatFile.new_from_machos(dylib_arm64, dylib_x86_64)
-    fat.write("#{lib}/libsqlcipher.0.dylib")
+    fat.write("#{lib}/libsqlite3.0.dylib")
+
+    # Modify file names to avoid conflicting with sqlite. Similar to
+    # * Debian  - https://salsa.debian.org/debian/sqlcipher/-/blob/master/debian/rules
+    # * Liguros - https://gitlab.com/liguros/liguros-repo/-/blob/develop/dev-db/sqlcipher/sqlcipher-4.12.0.ebuild
+    # * OpenBSD - https://codeberg.org/OpenBSD/ports/src/branch/master/databases/sqlcipher/Makefile
+    [
+      bin/"sqlite3",
+      man1/"sqlite3.1",
+      lib/"pkgconfig/sqlite3.pc",
+      lib/"libsqlite3.a",
+      lib/shared_library("libsqlcipher"),
+      *lib.glob(shared_library("libsqlite3", "*")),
+    ].each do |path|
+      basename = path.basename.sub("sqlite3", "sqlcipher")
+      if path.symlink?
+        source = path.readlink.sub("sqlite3", "sqlcipher")
+        rm(path)
+        path.dirname.install_symlink source => basename
+      else
+        path.dirname.install path => basename
+      end
+    end
+    inreplace lib/"pkgconfig/sqlcipher.pc", "-lsqlite3", "-lsqlcipher"
 
     rm "#{lib}/libsqlcipher.dylib"
     rm_r "#{prefix}/darwin64-x86_64-cc"
