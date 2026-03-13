@@ -1,9 +1,9 @@
 class SqlbOpensslAT3 < Formula
   desc "Cryptography and SSL/TLS Toolkit"
   homepage "https://openssl.org/"
-  url "https://github.com/openssl/openssl/releases/download/openssl-3.5.1/openssl-3.5.1.tar.gz"
-  # version "3.5.1"
-  sha256 "529043b15cffa5f36077a4d0af83f3de399807181d607441d734196d889b641f"
+  url "https://github.com/openssl/openssl/releases/download/openssl-3.6.1/openssl-3.6.1.tar.gz"
+  # version "3.6.1"
+  sha256 "b1bfedcd5b289ff22aee87c9d600f515767ebf45f77168cb6d64f231f518a82e"
   license "Apache-2.0"
 
   livecheck do
