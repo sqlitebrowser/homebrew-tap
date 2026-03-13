@@ -12,9 +12,9 @@ class SqlbOpensslAT3 < Formula
   end
 
   bottle do
-    root_url "https://github.com/sqlitebrowser/homebrew-tap/releases/download/sqlb-openssl@3-3.5.1"
-    sha256 arm64_sequoia: "24bd31b1b6e6946d23cc164b25aa317b7ed35fe0ffeb7b851c60111a86045860"
-    sha256 arm64_sonoma:  "b7d2de84a548a8693af73e33b3f58c346e20afd872ba0cc0e2e9c6c00d024f5d"
+    root_url "https://github.com/sqlitebrowser/homebrew-tap/releases/download/sqlb-openssl@3-3.6.1"
+    sha256 arm64_sequoia: "c7874ce9644827100f0c9b9e477486a89f2b590762d053e87f84fb013d3aa204"
+    sha256 arm64_sonoma:  "f12ac4befb89fef43d25a3f15be513a95ba8f4f8bc01ebbd90766e6ad4ccfc09"
   end
 
   keg_only :shadowed_by_macos, "macOS provides LibreSSL"
