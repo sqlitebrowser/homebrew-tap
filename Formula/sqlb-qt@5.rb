@@ -11,7 +11,7 @@ class SqlbQtAT5 < Formula
   revision 1
 
   livecheck do
-    url "https://download.qt.io/official_releases/qt/5.15/"
+    url "https://download.qt.io/archive/qt/5.15/"
     regex(%r{href=["']?v?(\d+(?:\.\d+)+)/?["' >]}i)
   end
 
