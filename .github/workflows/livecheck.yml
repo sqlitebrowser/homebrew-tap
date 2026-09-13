@@ -10,6 +10,8 @@ jobs:
     name: livecheck
     runs-on: macos-15
     steps:
+      - run: brew trust $GITHUB_REPOSITORY
+
       - run: brew tap $GITHUB_REPOSITORY
 
       - name: Run the script
