@@ -3,6 +3,7 @@ Homebrew tap with the formulae needed to build our [project](https://github.com/
 
 ## Installation
 ```
+brew trust sqlitebrowser/tap
 brew tap sqlitebrowser/tap
 ```
 
@@ -17,10 +18,6 @@ brew tap sqlitebrowser/tap
 > [!NOTE]
 > This formulae requires Rosetta 2.  
 > You can install Rosetta 2 with the command `softwareupdate --install-rosetta`.
-
-> [!WARNING]
-> Currently, the official bottle offering for these formulae is only available for macOS Sonoma.  
-> If you're using a different version, you'll need to build from source. Thanks for your understanding.
 
 ## License
 The code in this repository is licensed under the BSD 2-Clause License.<br>
