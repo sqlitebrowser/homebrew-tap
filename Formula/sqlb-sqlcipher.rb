@@ -1,21 +1,15 @@
 class SqlbSqlcipher < Formula
   desc "SQLite extension providing 256-bit AES encryption"
   homepage "https://www.zetetic.net/sqlcipher/"
-  url "https://github.com/sqlcipher/sqlcipher/archive/refs/tags/v4.13.0.tar.gz"
-  # version "4.13.0"
-  sha256 "7ca5c11f70e460d6537844185621d5b3d683a001e6bad223d15bdf8eff322efa"
+  url "https://github.com/sqlcipher/sqlcipher/archive/refs/tags/v4.19.0.tar.gz"
+  # version "4.19.0"
+  sha256 "7075f96cbabe45b4ecfc2e6b1745a625f856f695b0827a5506ce9ed85b906aa0"
   license "BSD-3-Clause"
   head "https://github.com/sqlcipher/sqlcipher.git", branch: "master"
 
   livecheck do
     url :stable
     strategy :github_latest
-  end
-
-  bottle do
-    root_url "https://github.com/sqlitebrowser/homebrew-tap/releases/download/sqlb-sqlcipher-4.13.0"
-    sha256 cellar: :any, arm64_sequoia: "99e13b466b6bf0488117846f4e13c6110fe8899aef2e3b91871a0878594d7aa3"
-    sha256 cellar: :any, arm64_sonoma:  "a7bbc7f34c3ee2165917da099798b9b132f4142138e9c4ef3739db4e46947b2a"
   end
 
   depends_on arch: :arm64
