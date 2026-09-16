@@ -12,11 +12,6 @@ class SqlbSqlcipher < Formula
     strategy :github_latest
   end
 
-  bottle do
-    root_url "https://github.com/sqlitebrowser/homebrew-tap/releases/download/sqlb-sqlcipher-4.19.0"
-    sha256 cellar: :any, arm64_sequoia: "247cea64b1f3718b41859b8eec4002bc38700cb748328c8479cebe0df21ca671"
-  end
-
   depends_on arch: :arm64
   depends_on "sqlitebrowser/tap/sqlb-openssl@3"
 
