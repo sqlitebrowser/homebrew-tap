@@ -7,8 +7,8 @@ class SqlbOpensslAT3 < Formula
   license "Apache-2.0"
 
   livecheck do
-    url "https://www.openssl.org/source/"
-    regex(/href=.*?openssl[._-]v?(\d+(?:\.\d+)+)\.t/i)
+    url "https://openssl-library.org/source/"
+    regex(/href=.*?openssl[._-]v?(3(?:\.\d+)+)\.t/i)
   end
 
   bottle do
