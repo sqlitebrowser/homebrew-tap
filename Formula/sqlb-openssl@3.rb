@@ -1,20 +1,14 @@
 class SqlbOpensslAT3 < Formula
   desc "Cryptography and SSL/TLS Toolkit"
   homepage "https://openssl.org/"
-  url "https://github.com/openssl/openssl/releases/download/openssl-3.6.1/openssl-3.6.1.tar.gz"
-  # version "3.6.1"
-  sha256 "b1bfedcd5b289ff22aee87c9d600f515767ebf45f77168cb6d64f231f518a82e"
+  url "https://github.com/openssl/openssl/releases/download/openssl-3.6.4/openssl-3.6.4.tar.gz"
+  # version "3.6.4"
+  sha256 "9bffaa1ad1e07b354c21bd3324ec02fa15579f45a7d0494b3e74bc449b7333ef"
   license "Apache-2.0"
 
   livecheck do
     url "https://openssl-library.org/source/"
     regex(/href=.*?openssl[._-]v?(3(?:\.\d+)+)\.t/i)
-  end
-
-  bottle do
-    root_url "https://github.com/sqlitebrowser/homebrew-tap/releases/download/sqlb-openssl@3-3.6.1"
-    sha256 arm64_sequoia: "c7874ce9644827100f0c9b9e477486a89f2b590762d053e87f84fb013d3aa204"
-    sha256 arm64_sonoma:  "f12ac4befb89fef43d25a3f15be513a95ba8f4f8bc01ebbd90766e6ad4ccfc09"
   end
 
   keg_only :shadowed_by_macos, "macOS provides LibreSSL"
