@@ -3,21 +3,14 @@
 class SqlbQtAT5 < Formula
   desc "Cross-platform application and UI framework"
   homepage "https://www.qt.io/"
-  url "https://download.qt.io/official_releases/qt/5.15/5.15.16/single/qt-everywhere-opensource-src-5.15.16.tar.xz"
-  # version "5.15.16"
+  url "https://download.qt.io/archive/qt/5.15/5.15.19/single/qt-everywhere-opensource-src-5.15.19.tar.xz"
+  # version "5.15.19"
   # NOTE: Use *.diff for GitLab/KDE patches to avoid their checksums changing.
-  sha256 "efa99827027782974356aceff8a52bd3d2a8a93a54dd0db4cca41b5e35f1041c"
+  sha256 "173c2326dae138bbb0d98921e9d911e55c00163d93a6db29f294b5e19ff306ae"
   license all_of: ["GFDL-1.3-only", "GPL-2.0-only", "GPL-3.0-only", "LGPL-2.1-only", "LGPL-3.0-only"]
-  revision 1
 
   livecheck do
-    url "https://download.qt.io/archive/qt/5.15/"
-    regex(%r{href=["']?v?(\d+(?:\.\d+)+)/?["' >]}i)
-  end
-
-  bottle do
-    root_url "https://github.com/sqlitebrowser/homebrew-tap/releases/download/sqlb-qt@5-5.15.16_1"
-    sha256 cellar: :any, arm64_sonoma: "3795b58979b95cf4d3152f9935990abf09b18afd8e8618503bef9fe9bdb5fc7c"
+    skip "Qt 5.15.19 is the final release"
   end
 
   keg_only :versioned_formula
@@ -25,48 +18,57 @@ class SqlbQtAT5 < Formula
   depends_on arch: :arm64
 
   # Fix build with Xcode 14.3.
-  # https://bugreports.qt.io/browse/QTBUG-112906
   patch do
     url "https://invent.kde.org/qt/qt/qtlocation-mapboxgl/-/commit/5a07e1967dcc925d9def47accadae991436b9686.diff"
     sha256 "4f433bb009087d3fe51e3eec3eee6e33a51fde5c37712935b9ab96a7d7571e7d"
     directory "qtlocation/src/3rdparty/mapbox-gl-native"
+    type :cherry_pick
+    resolves "https://bugreports.qt.io/browse/QTBUG-112906"
   end
 
-  # CVE-2023-51714
-  # Remove with Qt 5.15.17
+  # Fix build with Xcode 26 with backport from Qt6
+  # https://github.com/qt/qtbase/commit/cdb33c3d5621ce035ad6950c8e2268fe94b73de5
+  patch :DATA
+
+  # Apply patch from Gentoo bug tracker to fix build on macOS.
+  # Not possible to upstream as the final Qt5 commercial release is done.
   patch do
-    url "https://download.qt.io/official_releases/qt/5.15/0001-CVE-2023-51714-qtbase-5.15.diff"
-    sha256 "2129058a5e24d98ee80a776c49a58c2671e06c338dffa7fc0154e82eef96c9d4"
-    directory "qtbase"
-  end
-  patch do
-    url "https://download.qt.io/official_releases/qt/5.15/0002-CVE-2023-51714-qtbase-5.15.diff"
-    sha256 "99d5d32527e767d6ab081ee090d92e0b11f27702619a4af8966b711db4f23e42"
-    directory "qtbase"
+    on_sequoia :or_newer do
+      url "https://bugs.gentoo.org/attachment.cgi?id=916782"
+      sha256 "6b655ba61128c04811e0426a1e25456914fc79c845469da6df10f2d3e29aa510"
+      directory "qtlocation"
+      type :unofficial
+      resolves "https://bugs.gentoo.org/936486"
+    end
   end
 
-  # CVE-2024-25580
-  # Remove with Qt 5.15.17
+  # Backport Boost fix for newer Clang
   patch do
-    url "https://download.qt.io/official_releases/qt/5.15/CVE-2024-25580-qtbase-5.15.diff"
-    sha256 "7cc9bf74f696de8ec5386bb80ce7a2fed5aa3870ac0e2c7db4628621c5c1a731"
-    directory "qtbase"
+    on_tahoe :or_newer do
+      url "https://github.com/boostorg/mpl/commit/8499ae7e4ff0cf798367ebe6ea9fb991aa43db6c.patch?full_index=1"
+      sha256 "2bac4e4eaabce759c09b86b716149aad8e2bfcc921d7d946a31d24a3b9e25ac3"
+      directory "qtlocation/src/3rdparty/mapbox-gl-native/deps/boost/1.65.1"
+      type :backport
+      resolves "https://github.com/boostorg/mpl/pull/77"
+    end
+  end
+  patch do
+    on_tahoe :or_newer do
+      url "https://github.com/boostorg/mpl/commit/fb6b861834e29a93ba71a2e2501a42ecfd3c5655.patch?full_index=1"
+      sha256 "1213dc3e1b8d9cfc9ed42fc1639f10fa350f2a921d378b184c2c0a1d4936f7f3"
+      directory "qtlocation/src/3rdparty/mapbox-gl-native/deps/boost/1.65.1"
+      type :backport
+      resolves "https://github.com/boostorg/mpl/pull/77"
+    end
   end
 
-  # CVE-2024-36048
-  # Remove with Qt 5.15.17
+  # Apply Debian patch to fix build with GCC 13+
   patch do
-    url "https://download.qt.io/official_releases/qt/5.15/CVE-2024-36048-qtnetworkauth-5.15.diff"
-    sha256 "e5d385d636b5241b59ac16c4a75359e21e510506b26839a4e2033891245f33f9"
-    directory "qtnetworkauth"
-  end
-
-  # CVE-2024-39936
-  # Remove with Qt 5.15.18
-  patch do
-    url "https://download.qt.io/official_releases/qt/5.15/CVE-2024-39936-qtbase-5.15.patch"
-    sha256 "2cc23afba9d7e48f8faf8664b4c0324a9ac31a4191da3f18bd0accac5c7704de"
-    directory "qtbase"
+    url "https://salsa.debian.org/qt-kde-team/qt/qtlocation/-/raw/4ec161bda76cd4c80d2e50fff223a94594cc6b4c/debian/patches/gcc_13.diff"
+    sha256 "85ef9bb775540d639cea03894101ab2b7476f633cbb7ff49a1ea0a6bbca82168"
+    directory "qtlocation"
+    type :unofficial
+    resolves "https://github.com/mapbox/mapbox-gl-native/pull/16669"
   end
 
   def install
@@ -89,10 +91,15 @@ class SqlbQtAT5 < Formula
       "examples",
       "-nomake",
       "tests",
+      "-skip",
+      "qtwebengine",
     ]
 
     args << "-no-rpath"
     args << "-no-assimp" if Hardware::CPU.arm?
+
+    # Keep Qt3D x86 SIMD flags out of the arm64 slice of the universal build.
+    args += %w[-qt3d-simd no]
 
     # Work around Clang failure in bundled Boost and V8:
     # error: integer value -1 is outside the valid range of values [0, 3] for this enumeration type
@@ -193,3 +200,26 @@ class SqlbQtAT5 < Formula
     system "./hello"
   end
 end
+
+__END__
+--- a/qtbase/mkspecs/common/mac.conf
++++ b/qtbase/mkspecs/common/mac.conf
+@@ -18,8 +18,7 @@ QMAKE_LIBDIR            =
+ 
+ # sdk.prf will prefix the proper SDK sysroot
+ QMAKE_INCDIR_OPENGL     = \
+-    /System/Library/Frameworks/OpenGL.framework/Headers \
+-    /System/Library/Frameworks/AGL.framework/Headers/
++    /System/Library/Frameworks/OpenGL.framework/Headers
+ 
+ QMAKE_FIX_RPATH         = install_name_tool -id
+ 
+@@ -30,7 +29,7 @@ QMAKE_LFLAGS_REL_RPATH  =
+ QMAKE_REL_RPATH_BASE    = @loader_path
+ 
+ QMAKE_LIBS_DYNLOAD      =
+-QMAKE_LIBS_OPENGL       = -framework OpenGL -framework AGL
++QMAKE_LIBS_OPENGL       = -framework OpenGL
+ QMAKE_LIBS_THREAD       =
+ 
+ QMAKE_INCDIR_WAYLAND    =
