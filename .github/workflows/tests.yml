@@ -16,7 +16,15 @@ jobs:
       issues: write
       pull-requests: write
     steps:
-      - if: github.event_name == 'pull_request'
+      - name: Find Comment
+        uses: peter-evans/find-comment@v3
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: "> This will trigger the `brew pr-pull` workflow, which will automatically add the bottle and merge the PR."
+
+      - if: github.event_name == 'pull_request' && steps.fc.outputs.comment-id == ''
         name: Create a comment
         uses: peter-evans/create-or-update-comment@v5
         with:
