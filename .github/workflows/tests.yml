@@ -16,7 +16,8 @@ jobs:
       issues: write
       pull-requests: write
     steps:
-      - name: Find Comment
+      - if: github.event_name == 'pull_request'
+        name: Find Comment
         uses: peter-evans/find-comment@v3
         id: fc
         with:
