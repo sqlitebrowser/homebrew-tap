@@ -13,6 +13,13 @@ class SqlbQtAT5 < Formula
     skip "Qt 5.15.19 is the final release"
   end
 
+  bottle do
+    root_url "https://github.com/sqlitebrowser/homebrew-tap/releases/download/sqlb-qt@5-5.15.19"
+    sha256 cellar: :any, arm64_golden_gate: "5330b04ee97dad2f239eb9636eed6fead6f9d10caf9872359bb3def66ebb74b7"
+    sha256 cellar: :any, arm64_sequoia:     "266fbd16a36cd3b84ec0b8382062057983525a87559733c71ea4d70af5b9e2ce"
+    sha256 cellar: :any, arm64_sonoma:      "0e571ced8d9748c5c8f3a3bbbf52faa66188d01845a9dce4b8696b5b21c8a5b7"
+  end
+
   keg_only :versioned_formula
 
   depends_on arch: :arm64
