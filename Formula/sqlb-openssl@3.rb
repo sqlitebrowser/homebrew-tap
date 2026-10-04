@@ -11,6 +11,13 @@ class SqlbOpensslAT3 < Formula
     regex(/href=.*?openssl[._-]v?(3(?:\.\d+)+)\.t/i)
   end
 
+  bottle do
+    root_url "https://github.com/sqlitebrowser/homebrew-tap/releases/download/sqlb-openssl@3-3.6.5"
+    sha256 arm64_golden_gate: "edf0ac87b3597bdce349b0dbc487b24f9c8eff1b7004d1bbb14eba5cc1109aa1"
+    sha256 arm64_sequoia:     "5c5ba83048b48bbbac35dd71dd6761f7921a613aca51c8a0b4a085eb756c7054"
+    sha256 arm64_sonoma:      "021e9de87504607704a7fd943a52aa4d8e9161556a2eb22ba068b66e74fcd7ec"
+  end
+
   keg_only :shadowed_by_macos, "macOS provides LibreSSL"
 
   depends_on arch: :arm64
