@@ -117,7 +117,7 @@ if __name__ == "__main__":
     uncomment_version_in_formulae()
     data = json.loads(
         subprocess.run(
-            "brew livecheck sqlb-openssl sqlb-qt sqlb-sqlcipher sqlb-sqlite --json",
+            "brew livecheck sqlb-openssl sqlb-sqlcipher sqlb-sqlite --json",
             shell=True,
             capture_output=True,
             text=True,
