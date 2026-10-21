@@ -1,17 +1,10 @@
 class SqlbSqlite < Formula
   desc "Command-line interface for SQLite"
   homepage "https://sqlite.org/index.html"
-  url "https://www.sqlite.org/2026/sqlite-autoconf-3540000.tar.gz"
-  version "3.54.0"
-  sha256 "134ec0802dda5795816e25d25872d20b312cb3973438c49b30bc40b7705ea9ed"
+  url "https://www.sqlite.org/2026/sqlite-autoconf-3540100.tar.gz"
+  version "3.54.1"
+  sha256 "926ef8d3eab93fbf6e06011901273eec076b25594a4e1cdadd50c987f4f6d64e"
   license "blessing"
-
-  bottle do
-    root_url "https://github.com/sqlitebrowser/homebrew-tap/releases/download/sqlb-sqlite-3.54.0"
-    sha256 cellar: :any, arm64_golden_gate: "be89e1ebba244baf69d87aaff47841c318999c2027166ed9cc77bca20acd40ae"
-    sha256 cellar: :any, arm64_sequoia:     "ddda6c4ecfad8444dc14e95a4aba08fee5b860434171abf3fe1a12bd743b68dd"
-    sha256 cellar: :any, arm64_sonoma:      "7893accfd3401fa0386cacee860c01da79b61a43adc50fe0f97b227247961e2a"
-  end
 
   env :std
 
