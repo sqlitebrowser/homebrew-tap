@@ -6,6 +6,13 @@ class SqlbSqlite < Formula
   sha256 "926ef8d3eab93fbf6e06011901273eec076b25594a4e1cdadd50c987f4f6d64e"
   license "blessing"
 
+  bottle do
+    root_url "https://github.com/sqlitebrowser/homebrew-tap/releases/download/sqlb-sqlite-3.54.1"
+    sha256 cellar: :any, arm64_golden_gate: "2012f86fdea69f3b959966581ca8e88e9f61e9ced85e2e9a64d1501c52b38963"
+    sha256 cellar: :any, arm64_sequoia:     "6efd1d2542a39745239b5658c5c986b967564a39ba8fe8a2e80a7b40af33d2d6"
+    sha256 cellar: :any, arm64_sonoma:      "4b02c62deaf7f6dbad0ca51fa50c870f6af45b0a3ddc300cc0884dfbba04f7b3"
+  end
+
   env :std
 
   livecheck do
