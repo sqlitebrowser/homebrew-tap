@@ -5,6 +5,7 @@ class SqlbSqlcipher < Formula
   # version "4.19.0"
   sha256 "7075f96cbabe45b4ecfc2e6b1745a625f856f695b0827a5506ce9ed85b906aa0"
   license "BSD-3-Clause"
+  revision 1
   head "https://github.com/sqlcipher/sqlcipher.git", branch: "master"
 
   livecheck do
@@ -18,6 +19,7 @@ class SqlbSqlcipher < Formula
     sha256 cellar: :any, arm64_sequoia:     "dbe3f61f03d776137a984276de017c9582861607c0042aa299ff9ca3e787c1c1"
   end
 
+  depends_on "sqlitebrowser/tap/sqlb-icu4c" => :build
   depends_on arch: :arm64
   depends_on "sqlitebrowser/tap/sqlb-openssl@3"
 
@@ -35,6 +37,12 @@ class SqlbSqlcipher < Formula
 
     ENV.append "CFLAGS", "-arch x86_64"
 
+    icu4c = Formula["sqlitebrowser/tap/sqlb-icu4c"]
+    icu_args = %W[
+      --with-icu-cflags=-I#{icu4c.opt_include}
+      --with-icu-ldflags=-L#{icu4c.opt_lib}\ -licui18n\ -licuuc\ -licudata\ -lc++
+    ]
+
     args = %W[
       --prefix=#{prefix}/darwin64-x86_64-cc
       --disable-tcl
@@ -43,7 +51,7 @@ class SqlbSqlcipher < Formula
       --includedir=#{include}/sqlcipher
       --with-tempstore=yes
       LDFLAGS=-lcrypto
-    ]
+    ] + icu_args
 
     # Build with full-text search enabled
     cflags = %w[
@@ -78,7 +86,7 @@ class SqlbSqlcipher < Formula
       --includedir=#{include}/sqlcipher
       --with-tempstore=yes
       LDFLAGS=-lcrypto
-    ]
+    ] + icu_args
 
     # Build with full-text search enabled
     cflags = %w[
@@ -136,6 +144,9 @@ class SqlbSqlcipher < Formula
     rm "#{lib}/libsqlcipher.dylib"
     rm_r "#{prefix}/darwin64-x86_64-cc"
     ln_s "#{lib}/libsqlcipher.0.dylib", "#{lib}/libsqlcipher.dylib"
+
+    pkgshare.mkpath
+    cp icu4c.opt_prefix/"LICENSE", pkgshare/"LICENSE-ICU"
   end
 
   test do
@@ -150,5 +161,8 @@ class SqlbSqlcipher < Formula
 
     names = shell_output("#{bin}/sqlcipher < #{path}").strip.split("\n")
     assert_equal %w[Sue Tim Bob], names
+
+    # Check that the ICU extension is enabled.
+    assert_equal "ДВА", shell_output("#{bin}/sqlcipher :memory: \"select upper('два');\"").strip
   end
 end

@@ -5,6 +5,15 @@ class SqlbSqlite < Formula
   version "3.54.1"
   sha256 "926ef8d3eab93fbf6e06011901273eec076b25594a4e1cdadd50c987f4f6d64e"
   license "blessing"
+  revision 1
+
+  livecheck do
+    url :homepage
+    regex(%r{href=.*?releaselog/v?(\d+(?:[._]\d+)+)\.html}i)
+    strategy :page_match do |page, regex|
+      page.scan(regex).map { |match| match&.first&.tr("_", ".") }
+    end
+  end
 
   bottle do
     root_url "https://github.com/sqlitebrowser/homebrew-tap/releases/download/sqlb-sqlite-3.54.1"
@@ -15,16 +24,9 @@ class SqlbSqlite < Formula
 
   env :std
 
-  livecheck do
-    url :homepage
-    regex(%r{href=.*?releaselog/v?(\d+(?:[._]\d+)+)\.html}i)
-    strategy :page_match do |page, regex|
-      page.scan(regex).map { |match| match&.first&.tr("_", ".") }
-    end
-  end
-
   keg_only :shadowed_by_macos
 
+  depends_on "sqlitebrowser/tap/sqlb-icu4c" => :build
   depends_on arch: :arm64
 
   def install
@@ -66,11 +68,18 @@ class SqlbSqlite < Formula
       --disable-editline
     ]
 
+    icu4c = Formula["sqlitebrowser/tap/sqlb-icu4c"]
+    args << "--with-icu-cflags=-I#{icu4c.opt_include}"
+    args << "--with-icu-ldflags=-L#{icu4c.opt_lib} -licui18n -licuuc -licudata -lc++"
+
     system "./configure", *args
     system "make", "install"
 
     # Avoid rebuilds of dependants that hardcode this path.
     inreplace lib/"pkgconfig/sqlite3.pc", prefix, opt_prefix
+
+    pkgshare.mkpath
+    cp icu4c.opt_prefix/"LICENSE", pkgshare/"LICENSE-ICU"
   end
 
   test do
@@ -85,5 +94,8 @@ class SqlbSqlite < Formula
 
     names = shell_output("#{bin}/sqlite3 < #{path}").strip.split("\n")
     assert_equal %w[Sue Tim Bob], names
+
+    # Check that the ICU extension is enabled.
+    assert_equal "ДВА", shell_output("#{bin}/sqlite3 :memory: \"select upper('два');\"").strip
   end
 end

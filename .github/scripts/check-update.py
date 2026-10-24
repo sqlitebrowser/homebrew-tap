@@ -21,6 +21,7 @@ class IssueVersionStatus(Enum):
 
 
 class Package(Enum):
+    ICU = "ICU"
     OPENSSL = "OpenSSL"
     QT = "Qt"
     SQLCIPHER = "SQLCipher"
@@ -80,7 +81,9 @@ def generate_issue(package_name, current_version, latest_version):
 
 
 def return_package_name_from_formula(formula):
-    if formula == "sqlb-openssl@3":
+    if formula == "sqlb-icu4c":
+        return Package.ICU
+    elif formula == "sqlb-openssl@3":
         return Package.OPENSSL
     elif formula == "sqlb-qt@5":
         return Package.QT
@@ -94,7 +97,7 @@ def return_package_name_from_formula(formula):
 # the command 'brew audit --strict [formula]' fails. Therefore, the version metadata
 # is commented out in the formula and is only temporarily uncommented during livecheck.
 def uncomment_version_in_formulae():
-    formulae = ["sqlb-openssl@3", "sqlb-qt@5", "sqlb-sqlcipher"]
+    formulae = ["sqlb-icu4c", "sqlb-openssl@3", "sqlb-qt@5", "sqlb-sqlcipher"]
     formulae_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "..", "Formula")
 
     for formula in formulae:
@@ -117,7 +120,7 @@ if __name__ == "__main__":
     uncomment_version_in_formulae()
     data = json.loads(
         subprocess.run(
-            "brew livecheck sqlb-openssl sqlb-sqlcipher sqlb-sqlite --json",
+            "brew livecheck sqlb-icu4c sqlb-openssl sqlb-sqlcipher sqlb-sqlite --json",
             shell=True,
             capture_output=True,
             text=True,
