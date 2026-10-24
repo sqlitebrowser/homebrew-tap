@@ -10,6 +10,7 @@ brew tap sqlitebrowser/tap
 ## Formulae
 |   **Formula**  | **Description** |
 |:--------------:|:---------------:|
+|   sqlb-icu4c   |       ICU       |
 | sqlb-openssl@3 |   OpenSSL 3.x   |
 |    sqlb-qt@5   |      Qt 5.x     |
 | sqlb-sqlcipher |    SQLCipher    |
