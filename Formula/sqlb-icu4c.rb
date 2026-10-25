@@ -14,6 +14,13 @@ class SqlbIcu4c < Formula
     end
   end
 
+  bottle do
+    root_url "https://github.com/sqlitebrowser/homebrew-tap/releases/download/sqlb-icu4c-78.3"
+    sha256 cellar: :any_skip_relocation, arm64_golden_gate: "479f5745c9900b25b5617d674a904d0c6bfcf9b397ad09e299cf4bae1f83d83c"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia:     "b0956628d770825b6533495cd4e857b4542655ea50a1ca3dca8f3a5293e7b05f"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma:      "6a9cf1ff683e85a2aa88969aa2658ef1fc909322498ea70dbdcad605c1f69087"
+  end
+
   keg_only :shadowed_by_macos, "macOS provides libicucore.dylib (but nothing else)"
 
   depends_on arch: :arm64
