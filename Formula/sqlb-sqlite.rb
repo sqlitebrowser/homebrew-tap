@@ -16,10 +16,10 @@ class SqlbSqlite < Formula
   end
 
   bottle do
-    root_url "https://github.com/sqlitebrowser/homebrew-tap/releases/download/sqlb-sqlite-3.54.1"
-    sha256 cellar: :any, arm64_golden_gate: "2012f86fdea69f3b959966581ca8e88e9f61e9ced85e2e9a64d1501c52b38963"
-    sha256 cellar: :any, arm64_sequoia:     "6efd1d2542a39745239b5658c5c986b967564a39ba8fe8a2e80a7b40af33d2d6"
-    sha256 cellar: :any, arm64_sonoma:      "4b02c62deaf7f6dbad0ca51fa50c870f6af45b0a3ddc300cc0884dfbba04f7b3"
+    root_url "https://github.com/sqlitebrowser/homebrew-tap/releases/download/sqlb-sqlite-3.54.1_1"
+    sha256 cellar: :any, arm64_golden_gate: "4221f3dbff99e8aac5cc46fd9625e25e81b41fc67c7db36a9dee5699544f611b"
+    sha256 cellar: :any, arm64_sequoia:     "431bbda81afc889ca7ef2106721f2a180b8ad50fa3d06af21e07d4ab4f4023f2"
+    sha256 cellar: :any, arm64_sonoma:      "1a36e0c41f38de236ac16a377eae898e13787a18e7c635d54584ac7333b2104b"
   end
 
   env :std
