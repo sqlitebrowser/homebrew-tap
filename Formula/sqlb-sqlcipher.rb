@@ -14,9 +14,9 @@ class SqlbSqlcipher < Formula
   end
 
   bottle do
-    root_url "https://github.com/sqlitebrowser/homebrew-tap/releases/download/sqlb-sqlcipher-4.19.0_1"
-    sha256 cellar: :any, arm64_golden_gate: "4e0cf066db5f5c170d0e75045248a1a6fe1d85bc1aaf5c6f8f20d28a778d9d61"
-    sha256 cellar: :any, arm64_sequoia:     "9008893066b204773a5f37ec0d596dfc8e4a94712ce76889c03ae5444ea5c867"
+    root_url "https://github.com/sqlitebrowser/homebrew-tap/releases/download/sqlb-sqlcipher-4.19.0_2"
+    sha256 cellar: :any, arm64_golden_gate: "c57009ca5a5136adff42be3e116fa6475fddb4c08ed3692c0270863d49446aac"
+    sha256 cellar: :any, arm64_sequoia:     "ccc2f390460733a98793d1b4477cb25fb4649487051203a58287daa80b40c31f"
   end
 
   depends_on "sqlitebrowser/tap/sqlb-icu4c" => :build
