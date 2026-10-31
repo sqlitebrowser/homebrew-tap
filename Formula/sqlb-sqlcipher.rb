@@ -5,7 +5,7 @@ class SqlbSqlcipher < Formula
   # version "4.19.0"
   sha256 "7075f96cbabe45b4ecfc2e6b1745a625f856f695b0827a5506ce9ed85b906aa0"
   license "BSD-3-Clause"
-  revision 1
+  revision 2
   head "https://github.com/sqlcipher/sqlcipher.git", branch: "master"
 
   livecheck do
@@ -56,6 +56,7 @@ class SqlbSqlcipher < Formula
     # Build with full-text search enabled
     cflags = %w[
       -DSQLITE_ENABLE_COLUMN_METADATA
+      -DSQLITE_ENABLE_DBSTAT_VTAB
       -DSQLITE_ENABLE_FTS3
       -DSQLITE_ENABLE_FTS3_PARENTHESIS
       -DSQLITE_ENABLE_FTS5
@@ -91,6 +92,7 @@ class SqlbSqlcipher < Formula
     # Build with full-text search enabled
     cflags = %w[
       -DSQLITE_ENABLE_COLUMN_METADATA
+      -DSQLITE_ENABLE_DBSTAT_VTAB
       -DSQLITE_ENABLE_FTS3
       -DSQLITE_ENABLE_FTS3_PARENTHESIS
       -DSQLITE_ENABLE_FTS5
